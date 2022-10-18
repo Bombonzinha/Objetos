@@ -1,6 +1,8 @@
 package funciones;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class Funciones {
 	
@@ -117,5 +119,38 @@ public class Funciones {
 		return ok;
 	}
 	
+	public static int convertirStringAInt(String s) {
+		return Integer.parseInt(s);
+	}
+
+	public static int convertirCharAInt(char c) {
+		return Character.getNumericValue(c);
+	}
+	
+	public static int calcularEdad(LocalDate nacimiento, LocalDate edadHasta){
+		Period periodo = Period.between(nacimiento, edadHasta);
+		return periodo.getYears();
+	}
+	
+	public static boolean estaEntreFechasNoIncluyeExtremos(LocalDate fecha, LocalDate desde, LocalDate hasta) {
+		return (fecha.isAfter(desde) && fecha.isBefore(hasta) );
+	}
+	
+	public static boolean estaEntreFechasInclusiveExtremos(LocalDate fecha, LocalDate desde, LocalDate hasta) {
+		return desde.equals(fecha) || Funciones.estaEntreFechasNoIncluyeExtremos(fecha, desde, hasta)  || hasta.equals(fecha);
+	}
+	
+	public static int diasEntreDosFechas(LocalDate desde, LocalDate hasta) {
+		return (int)ChronoUnit.DAYS.between(desde, hasta); 
+	}
+	
+	//Funciona siempre que horario desde y horario hasta correspondan al mismo dia. Ademas hasta debe ser un horario posterior a desde
+	public static double horasPasadas(LocalTime desde, LocalTime hasta) {
+		return (minutosPasados(desde, hasta)/60);
+	}
+	
+	public static int minutosPasados(LocalTime desde, LocalTime hasta) {
+		return ((hasta.getHour() - desde.getHour())*60 + hasta.getMinute() - desde.getMinute());
+	}
 	
 }
